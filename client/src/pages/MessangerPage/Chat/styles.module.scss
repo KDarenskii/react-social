@@ -1,0 +1,135 @@
+@import "../../../assets/styles/vars.scss";
+
+.chat {
+    height: 100%;
+    background-color: $white;
+}
+.header {
+    height: 56px;
+    position: fixed;
+    z-index: 30;
+    width: 590px;
+    border-bottom: 1px solid $grey;
+    border-radius: 10px 10px 0 0;
+    background-color: $grey;
+    &::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: calc(100% + $pageOffsetPadding);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        background-color: $grey;
+    }
+}
+.headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    height: 100%;
+    border-radius: 10px 10px 0 0;
+    background-color: $white;
+    position: relative;
+    z-index: 20;
+}
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    padding: 0 15px 0 10px;
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+    transition: background-color 0.15s ease;
+    &:hover {
+        background-color: #f3f7ff;
+    }
+}
+.backIcon {
+    height: 20px;
+    width: 20px;
+    fill: $darkgrey;
+}
+.backText {
+    font-size: 15px;
+    color: $darkgrey;
+}
+.title {
+    text-align: center;
+}
+.name {
+    display: inline-block;
+    color: $black;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+.status {
+    font-size: 13px;
+    color: $darkgrey;
+}
+.avatar {
+    margin-right: 10px;
+}
+.messagesList {
+    display: flex;
+    flex-direction: column;
+    padding-top: 66px;
+    border-bottom: 100px solid $white;
+    border-radius: 0 0 10px 10px;
+}
+.messageItem {
+    padding: 10px 25px;
+    background-color: $white;
+}
+.footer {
+    position: fixed;
+    bottom: $pageOffsetPadding;
+    z-index: 30;
+    width: 590px;
+    border-top: 1px solid $grey;
+    background-color: $grey;
+    &::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: calc(100% + $pageOffsetPadding);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background-color: $grey;
+    }
+}
+.footerWrapper {
+    border-radius: 0 0 10px 10px;
+    background-color: $white;
+    padding: 13px 20px;
+    position: relative;
+    z-index: 20;
+}
+.form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.input {
+    width: 100%;
+    background-color: $white;
+    font-size: 14px;
+    border-color: #e0dfdf;
+}
+.sendIcon {
+    height: 20px;
+    width: 20px;
+    transform: rotate(90deg);
+    fill: $darkgrey;
+    transition: fill 0.15s ease;
+    border-color: $grey;
+    &:hover {
+        fill: $blue;
+    }
+}

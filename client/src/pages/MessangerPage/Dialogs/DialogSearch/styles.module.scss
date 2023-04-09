@@ -1,0 +1,25 @@
+@import "../../../../assets/styles/vars.scss";
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.searchIcon {
+    height: 20px;
+    width: 20px;
+    fill: $darkgrey;
+}
+.input {
+    width: 100%;
+}
+.cancelIcon {
+    height: 20px;
+    width: 20px;
+    fill: $darkgrey;
+    cursor: pointer;
+    transition: fill 0.15s ease;
+    &:hover {
+        fill: $black;
+    }
+}

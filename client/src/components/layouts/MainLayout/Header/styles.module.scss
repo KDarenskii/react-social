@@ -1,0 +1,32 @@
+@import "../../../../assets/styles/vars.scss";
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    min-height: $headerHeight;
+    padding: 15px 0;
+    background-color: $white;
+}
+.wrapper {
+    display: flex;
+}
+.titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: $blue;
+}
+.title {
+    font-size: 20px;
+    color: $white;
+}
+.titleIcon {
+    fill: $white;
+    height: 20px;
+    width: 20px;
+}

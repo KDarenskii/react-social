@@ -1,0 +1,53 @@
+@import "../../../../assets/styles/vars.scss";
+
+.dialog {
+    background-color: $white;
+    padding: 15px 20px;
+    border-bottom: 1px solid $grey;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    &:hover {
+        background-color: #f4f8ff;
+    }
+}
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.dialogImg {
+    height: 50px;
+    width: 50px;
+}
+.name {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.senderAvatar {
+    padding: 5px;
+}
+.senderImg {
+    width: 15px;
+    height: 15px;
+}
+.message {
+    font-size: 13px;
+    width: 413px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.time {
+    color: $darkgrey;
+    font-size: 14px;
+}

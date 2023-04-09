@@ -1,0 +1,24 @@
+@import "../../../../assets/styles/vars.scss";
+
+.sidebar {
+    position: fixed;
+    width: 270px;
+    top: calc($headerHeight + $pageOffsetPadding);
+    margin-left: 810px;
+}
+.friendsBody {
+    background-color: $white;
+    padding: 10px 5px 10px 10px;
+    border-radius: 10px;
+}
+.title {
+    font-size: 17px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $grey;
+}
+.friendsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
