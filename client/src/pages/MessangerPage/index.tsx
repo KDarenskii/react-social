@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import Chat from "./Chat";
 
 const MessangerPage: React.FC = () => {
-    const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(false);
 
     return (
         <div className={styles.messenger}>

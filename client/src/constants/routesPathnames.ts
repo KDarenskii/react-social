@@ -11,6 +11,10 @@ export const NEWS_ROUTE: Route = {
     NAME: "news",
     PATH: "/news",
 };
+export const FRIENDS_ROUTE: Route = {
+    NAME: "friends",
+    PATH: "/friends",
+};
 export const LOGIN_ROUTE: Route = {
     NAME: "login",
     PATH: "/login",
