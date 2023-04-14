@@ -1,4 +1,3 @@
-import TokenService from "../services/TokenService.js";
 import UserService from "../services/UserService.js";
 
 class UserController {

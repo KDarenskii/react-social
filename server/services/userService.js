@@ -65,6 +65,7 @@ class UserService {
 
         const tokenResponse = await TokenService.getByRefreshToken(refreshToken);
         const isRefreshTokenValid = TokenService.validateRefreshToken(refreshToken);
+
         if (!tokenResponse || !isRefreshTokenValid) {
             throw new Error("Пользователь не авторизован");
         }

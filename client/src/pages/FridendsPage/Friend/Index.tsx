@@ -1,11 +1,10 @@
 import React from "react";
-
-import styles from "./styles.module.scss";
 import Avatar from "../../../components/Avatar";
-import ActionButton from "../../../components/ui/ActionButton";
 import { Link } from "react-router-dom";
 import { MESSENGER_ROUTE } from "../../../constants/routesPathnames";
 import { TbUserOff } from "react-icons/tb";
+
+import styles from "./styles.module.scss";
 
 const Friend: React.FC = () => {
     return (

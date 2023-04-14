@@ -5,7 +5,7 @@ import db from "../db.js";
 class TokenService {
     generateTokens(data) {
         const accessToken = jwt.sign(data, process.env.SECRET_KEY_ACCESS_TOKEN, { expiresIn: "10m" });
-        const refreshToken = jwt.sign(data, process.env.SECRET_KEY_REFRESH_TOKEN, { expiresIn: "30m" });
+        const refreshToken = jwt.sign(data, process.env.SECRET_KEY_REFRESH_TOKEN, { expiresIn: "60m" });
         return { accessToken, refreshToken };
     }
 

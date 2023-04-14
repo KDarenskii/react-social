@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { PORT = 8000, API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } = process.env;
+const { PORT = 8000, CLIENT_URL, API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } = process.env;
 
 const firebaseConfig = {
     apiKey: API_KEY,
@@ -13,4 +13,4 @@ const firebaseConfig = {
     appId: APP_ID,
 };
 
-export { firebaseConfig, PORT };
+export { firebaseConfig, PORT, CLIENT_URL };

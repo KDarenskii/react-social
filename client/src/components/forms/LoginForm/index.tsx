@@ -1,50 +1,73 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "../../ui/Input";
 import ActionButton from "../../ui/ActionButton";
-import { NEWS_ROUTE, REGISTRATION_ROUTE } from "../../../constants/routesPathnames";
+import { REGISTRATION_ROUTE } from "../../../constants/routesPathnames";
 import { useNavigate } from "react-router-dom";
+import { Formik } from "formik";
 
 import styles from "./styles.module.scss";
 
-const LoginForm: React.FC = () => {
+type Props = {
+    onSubmit: (values: LoginFormValues) => Promise<void>;
+};
+
+export interface LoginFormValues {
+    email: string;
+    password: string;
+}
+
+const LoginForm: React.FC<Props> = ({ onSubmit }) => {
     const navigate = useNavigate();
 
-    const [firstName, setFirstName] = useState("Alex")
-    const [lastName, setLastName] = useState("Vesnov")
-    const [email, setEmail] = useState("alex@mail.com")
-    const [password, setPassword] = useState("12345")
+    const initialState: LoginFormValues = {
+        email: "",
+        password: "",
+    };
 
     return (
-        <form>
-            <label className={styles.label}>
-                <Input className={styles.input} placeholder="First name" />
-            </label>
-            <label className={styles.label}>
-                <Input className={styles.input} placeholder="Last name" />
-            </label>
-            <label className={styles.label}>
-                <Input className={styles.input} placeholder="Email" />
-            </label>
-            <label className={styles.label}>
-                <Input className={styles.input} placeholder="Password" type="password" />
-            </label>
-            <ActionButton
-                className={styles.submitBtn}
-                onClick={() => navigate(NEWS_ROUTE.PATH)}
-                colorType="info"
-                type="submit"
-            >
-                Sign in
-            </ActionButton>
-            <p className={styles.message}>or if you don't have an accout</p>
-            <ActionButton
-                className={styles.submitBtn}
-                onClick={() => navigate(REGISTRATION_ROUTE.PATH)}
-                colorType="success"
-            >
-                Sign up
-            </ActionButton>
-        </form>
+        <Formik onSubmit={onSubmit} initialValues={initialState}>
+            {({ handleBlur, handleChange, handleSubmit, values }) => (
+                <form onSubmit={handleSubmit}>
+                    <label className={styles.label}>
+                        <Input
+                            className={styles.input}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="email"
+                            placeholder="Email"
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        <Input
+                            className={styles.input}
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                        />
+                    </label>
+                    <ActionButton
+                        className={styles.submitBtn}
+                        colorType="info"
+                        type="submit"
+                    >
+                        Sign in
+                    </ActionButton>
+                    <p className={styles.message}>or if you don't have an accout</p>
+                    <ActionButton
+                        className={styles.submitBtn}
+                        onClick={() => navigate(REGISTRATION_ROUTE.PATH)}
+                        colorType="success"
+                        type="button"
+                    >
+                        Sign up
+                    </ActionButton>
+                </form>
+            )}
+        </Formik>
     );
 };
 
