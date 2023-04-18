@@ -13,14 +13,18 @@ import RegistrationPage from "../pages/RegistrationPage";
 import NewsPage from "../pages/NewsPage";
 import MessangerPage from "../pages/MessangerPage";
 import FriendsPage from "../pages/FridendsPage";
+import ProtectedRoute from "./ProtectedRoute";
+import { ROLES } from "../constants/roles";
 
 const Router: React.FC = () => {
     return (
         <Routes>
             <Route path={MESSENGER_ROUTE.PATH} element={<MainLayout />}>
-                <Route index element={<MessangerPage />} />
-                <Route path={NEWS_ROUTE.PATH} element={<NewsPage />} />
-                <Route path={FRIENDS_ROUTE.PATH} element={<FriendsPage />} />
+                <Route element={<ProtectedRoute roles={[ROLES.USER, ROLES.ADMIN]} />}>
+                    <Route index element={<MessangerPage />} />
+                    <Route path={NEWS_ROUTE.PATH} element={<NewsPage />} />
+                    <Route path={FRIENDS_ROUTE.PATH} element={<FriendsPage />} />
+                </Route>
             </Route>
             <Route path={LOGIN_ROUTE.PATH} element={<LoginPage />} />
             <Route path={REGISTRATION_ROUTE.PATH} element={<RegistrationPage />} />

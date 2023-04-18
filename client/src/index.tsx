@@ -7,12 +7,15 @@ import store from "./store";
 import { Provider } from "react-redux";
 
 import "./assets/styles/index.scss";
+import SocketProvider from "./context/socketContext/SocketProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
     <BrowserRouter>
         <Provider store={store}>
-            <App />
+            <SocketProvider>
+                <App />
+            </SocketProvider>
         </Provider>
     </BrowserRouter>
 );

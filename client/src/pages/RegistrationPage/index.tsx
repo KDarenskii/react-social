@@ -2,39 +2,26 @@ import React from "react";
 import RegistrationForm, { RegistrationFormValues } from "../../components/forms/RegistrationForm";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { registerUser } from "../../store/user/thunks/registerUser";
-import ActionButton from "../../components/ui/ActionButton";
-import { logoutUser } from "../../store/user/thunks/logoutUser";
+import { useNavigate } from "react-router-dom";
+import { useSocketConnect } from "../../hooks/useSocketConnect";
+import { NEWS_ROUTE } from "../../constants/routesPathnames";
 
 import styles from "./styles.module.scss";
 
 const RegistrationPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const connectSocket = useSocketConnect();
 
     const handleSubmit = async (values: RegistrationFormValues) => {
-        console.log(values);
-
         const { firstName, lastName, email, password } = values;
-
-        try {
-            dispatch(registerUser({ firstName, lastName, email, password }));
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleLogout = async () => {
-        dispatch(logoutUser());
+        const user = await dispatch(registerUser({ firstName, lastName, email, password })).unwrap();
+        connectSocket(user.id);
+        navigate(NEWS_ROUTE.PATH);
     };
 
     return (
         <div className={styles.page}>
-            <ActionButton
-                onClick={handleLogout}
-                colorType="info"
-                style={{ position: "fixed", left: "30px", top: "30px" }}
-            >
-                Выйти
-            </ActionButton>
             <div className={styles.body}>
                 <h2 className={styles.title}>Sign up to React Social</h2>
                 <RegistrationForm onSubmit={handleSubmit} />

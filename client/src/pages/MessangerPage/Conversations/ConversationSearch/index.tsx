@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>;
 
-const DialogSearch: React.FC<Props> = ({ className, ...rest }) => {
+const ConversationSearch: React.FC<Props> = ({ className, ...rest }) => {
     return (
         <label className={styles.label}>
             <BiSearch className={styles.searchIcon} />
@@ -17,4 +17,4 @@ const DialogSearch: React.FC<Props> = ({ className, ...rest }) => {
     );
 };
 
-export default DialogSearch;
+export default ConversationSearch;

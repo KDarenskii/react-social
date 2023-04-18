@@ -1,10 +1,11 @@
 import { collection, addDoc, doc, query, where, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
 import jwt from "jsonwebtoken";
 import db from "../db.js";
+import ApiError from "../exceptions/ApiError.js";
 
 class TokenService {
     generateTokens(data) {
-        const accessToken = jwt.sign(data, process.env.SECRET_KEY_ACCESS_TOKEN, { expiresIn: "10m" });
+        const accessToken = jwt.sign(data, process.env.SECRET_KEY_ACCESS_TOKEN, { expiresIn: "30m" });
         const refreshToken = jwt.sign(data, process.env.SECRET_KEY_REFRESH_TOKEN, { expiresIn: "60m" });
         return { accessToken, refreshToken };
     }
@@ -48,13 +49,21 @@ class TokenService {
     }
 
     validateRefreshToken(refreshToken) {
-        const userData = jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN);
-        return userData;
+        try {
+            const userData = jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN);
+            return userData;
+        } catch (error) {
+            throw ApiError.UnauthenticatedError();
+        }
     }
 
     validateAccessToken(accessToken) {
-        const userData = jwt.verify(accessToken, process.env.SECRET_KEY_ACCESS_TOKEN);
-        return userData;
+        try {
+            const userData = jwt.verify(accessToken, process.env.SECRET_KEY_ACCESS_TOKEN);
+            return userData;
+        } catch (error) {
+            throw ApiError.UnauthenticatedError();
+        }
     }
 }
 

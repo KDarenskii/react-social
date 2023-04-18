@@ -1,6 +1,6 @@
 @import "../../../../assets/styles/vars.scss";
 
-.dialog {
+.conversation {
     background-color: $white;
     padding: 15px 20px;
     border-bottom: 1px solid $grey;
@@ -19,7 +19,7 @@
     align-items: center;
     gap: 20px;
 }
-.dialogImg {
+.conversationImg {
     height: 50px;
     width: 50px;
 }

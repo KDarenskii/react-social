@@ -1,9 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../models/User";
 import { registerUser } from "./thunks/registerUser";
 import { loginUser } from "./thunks/loginUser";
 import { logoutUser } from "./thunks/logoutUser";
 import { checkAuth } from "./thunks/checkAuth";
+import { Socket } from "socket.io-client";
 
 interface State {
     user: IUser;
@@ -15,7 +16,7 @@ interface State {
 const initialState: State = {
     user: {} as IUser,
     isAuth: false,
-    isLoading: false,
+    isLoading: true,
     error: null,
 };
 
@@ -35,7 +36,7 @@ const userSlice = createSlice({
                 state.isAuth = true;
             })
             .addCase(registerUser.rejected, (state, action) => {
-                state.error = action.error.message ?? "Login error";
+                state.error = action.error.message ?? "Registration error";
                 state.isLoading = false;
             })
             .addCase(loginUser.pending, (state) => {

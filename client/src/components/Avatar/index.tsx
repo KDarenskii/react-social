@@ -8,10 +8,11 @@ type Props = {
     src?: string;
     className?: string;
     imageClassName?: string;
+    iconClassName?: string;
     isOnline?: boolean;
 };
 
-const Avatar: React.FC<Props> = ({ className, imageClassName, src, isOnline }) => {
+const Avatar: React.FC<Props> = ({ className, imageClassName, iconClassName, src, isOnline }) => {
     return (
         <div className={cn(styles.avatar, className)}>
             {src ? (
@@ -19,7 +20,7 @@ const Avatar: React.FC<Props> = ({ className, imageClassName, src, isOnline }) =
             ) : (
                 <BsFillCameraFill className={cn(styles.img, imageClassName)} />
             )}
-            {isOnline && <div className={styles.onlineIcon}></div>}
+            {isOnline && <div className={cn(styles.onlineIcon, iconClassName)}></div>}
         </div>
     );
 };

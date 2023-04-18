@@ -6,30 +6,24 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { selectUserError } from "../../store/user/selectors";
 import Alert from "../../components/Alert";
 import { ALERT } from "../../constants/alert";
+import { NEWS_ROUTE } from "../../constants/routesPathnames";
+import { useFromNavigate } from "../../hooks/useFromNavigate";
+import { useSocketConnect } from "../../hooks/useSocketConnect";
 
 import styles from "./styles.module.scss";
-import ActionButton from "../../components/ui/ActionButton";
-import { logoutUser } from "../../store/user/thunks/logoutUser";
-import { authApi } from "../../api";
 
 const LoginPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useFromNavigate();
+    const connectSocket = useSocketConnect();
     const error = useAppSelector(selectUserError);
 
     const handleSubmit = async (values: LoginFormValues) => {
-        console.log(values);
         const { email, password } = values;
-        dispatch(loginUser({ email, password }));
-    };
-
-    const handleLogout = async () => {
-        dispatch(logoutUser());
-    };
-
-    const fetchData = async () => {
         try {
-            const response = await authApi.get("https://jsonplaceholder.typicode.com/users");
-            console.log(response.data);
+            const user = await dispatch(loginUser({ email, password })).unwrap();
+            connectSocket(user.id);
+            navigate(NEWS_ROUTE.PATH);
         } catch (error) {
             console.log(error);
         }
@@ -37,20 +31,6 @@ const LoginPage: React.FC = () => {
 
     return (
         <div className={styles.page}>
-            <ActionButton
-                onClick={handleLogout}
-                colorType="info"
-                style={{ position: "fixed", left: "30px", top: "30px" }}
-            >
-                Выйти
-            </ActionButton>
-            <ActionButton
-                onClick={fetchData}
-                colorType="warning"
-                style={{ position: "fixed", left: "150px", top: "30px" }}
-            >
-                Получить
-            </ActionButton>
             <div className={styles.body}>
                 <h2 className={styles.title}>Sign in to React Social</h2>
                 {error && (

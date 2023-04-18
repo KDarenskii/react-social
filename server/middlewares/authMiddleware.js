@@ -1,19 +1,20 @@
-import TokenService from "../services/TokenService";
+import ApiError from "../exceptions/ApiError.js";
+import TokenService from "../services/TokenService.js";
 
-export const authMiddleware = function (req, _, next) {
+export const authMiddleware = (req, _, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-        throw new Error("Пользователь не авторизован");
+        throw ApiError.UnauthenticatedError();
     }
 
-    const accessToken = authHeader.split(" ")[0];
+    const accessToken = authHeader.split(" ")[1];
     if (!accessToken) {
-        throw new Error("Пользователь не авторизован");
+        throw ApiError.UnauthenticatedError();
     }
 
     const userData = TokenService.validateAccessToken(accessToken);
     if (!userData) {
-        throw new Error("Пользователь не авторизован");
+        throw ApiError.UnauthenticatedError();
     }
 
     req.user = userData;
