@@ -11,7 +11,6 @@ type Props = {
 };
 
 const FriendBadge: React.FC<Props> = ({ friend }) => {
-    console.log(friend)
     return (
         <div className={styles.badge}>
             <div className={styles.wrapper}>

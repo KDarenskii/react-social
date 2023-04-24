@@ -11,6 +11,11 @@ export const useFriends = () => {
     const [onlineUsers, setOnlineUsers] = useState<{ id: string; socketId: string }[]>([]);
     const [friends, setFriends] = useState<IUser[]>([]);
     const [onlineFriends, setOnlineFriends] = useState<IUser[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setFriends((prev) => prev.filter((friend) => user.friends.includes(friend.id)));
+    }, [user.friends]);
 
     useEffect(() => {
         const fetchFriends = async () => {
@@ -19,6 +24,8 @@ export const useFriends = () => {
                 setFriends(response.data);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -30,6 +37,16 @@ export const useFriends = () => {
             setOnlineUsers(onlineUsers);
         });
     }, [socket, friends]);
+
+    useEffect(() => {
+        socket?.emit("sendOnlineUsers");
+        socket?.on("addFriend", (friend: IUser) => {
+            setFriends((prev) => [friend, ...prev]);
+        });
+        socket?.on("removeFriend", (friend: IUser) => {
+            setFriends((prev) => prev.filter((currFriend) => currFriend.id !== friend.id));
+        });
+    }, [socket]);
 
     useEffect(() => {
         const onlineFriends = friends.filter((friend) => onlineUsers.find((onlineUser) => onlineUser.id === friend.id));
@@ -44,5 +61,5 @@ export const useFriends = () => {
         [onlineUsers]
     );
 
-    return { friends, onlineFriends, checkIsOnline };
+    return { friends, onlineFriends, checkIsOnline, isLoading };
 };

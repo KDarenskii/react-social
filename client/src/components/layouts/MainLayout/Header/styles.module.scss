@@ -12,6 +12,7 @@
 }
 .wrapper {
     display: flex;
+    justify-content: space-between;
 }
 .titleWrapper {
     display: flex;
@@ -29,4 +30,9 @@
     fill: $white;
     height: 20px;
     width: 20px;
+}
+.actionsWrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }

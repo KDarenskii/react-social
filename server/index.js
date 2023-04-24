@@ -7,6 +7,7 @@ import { PORT, CLIENT_URL } from "./config.js";
 import userRouter from "./router/userRouter.js";
 import messageRouter from "./router/messageRouter.js";
 import conversationRouter from "./router/conversationRouter.js";
+import notificationRouter from "./router/notificationRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(
 app.use("/api", userRouter);
 app.use("/api", messageRouter);
 app.use("/api", conversationRouter);
+app.use("/api", notificationRouter);
 app.use(errorMiddleware);
 
 const startApp = async () => {
@@ -61,7 +63,7 @@ const removeUser = (socketId) => {
 
 io.on("connection", (socket) => {
     io.emit("getOnlineUsers", users);
-    
+
     socket.on("addUser", (userId) => {
         console.log("After connection: ");
         addUser({ userId, socketId: socket.id });
@@ -69,10 +71,51 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", users);
     });
 
+    socket.on("sendOnlineUsers", () => {
+        io.emit("getOnlineUsers", users);
+    });
+
+    socket.on("sendFriend", (sender, friend) => {
+        const senderSocket = getUser(sender.id);
+        const friendSocket = getUser(friend.id);
+        if (senderSocket && friendSocket) {
+            io.to(senderSocket.socketId).emit("addFriend", friend);
+            io.to(friendSocket.socketId).emit("addFriend", sender);
+        }
+    });
+
+    socket.on("removeFriend", (sender, friendId) => {
+        const friendSocket = getUser(friendId);
+        if (friendSocket) {
+            io.to(friendSocket.socketId).emit("removeFriend", sender);
+        }
+    });
+
+    socket.on("sendRequest", (senderId, receiverId) => {
+        const receiverSocket = getUser(receiverId);
+        if (receiverSocket) {
+            io.to(receiverSocket.socketId).emit("addRequest", senderId);
+        }
+    });
+
+    socket.on("removeRequest", (senderId, receiverId) => {
+        const receiver = getUser(receiverId);
+        if (receiver) {
+            io.to(receiver.socketId).emit("removeRequest", senderId);
+        }
+    });
+
     socket.on("sendMessage", (message) => {
         const receiver = getUser(message.receiverId);
         if (receiver) {
             io.to(receiver.socketId).emit("getMessage", message);
+        }
+    });
+
+    socket.on("sendNotification", (notification) => {
+        const receiver = getUser(notification.userId);
+        if (receiver) {
+            io.to(receiver.socketId).emit("getNotification", notification);
         }
     });
 

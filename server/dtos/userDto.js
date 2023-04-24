@@ -5,6 +5,8 @@ export default class UserDto {
         this.email = user.email;
         this.roles = user.roles;
         this.friends = user.friends;
+        this.requests = user.requests;
+        this.followings = user.followings;
         this.id = user.id;
     }
 }

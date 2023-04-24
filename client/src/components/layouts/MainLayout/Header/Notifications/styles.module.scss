@@ -1,0 +1,154 @@
+@import "../../../../../assets/styles/vars.scss";
+
+.notices {
+    position: relative;
+}
+.noticeButton {
+    position: relative;
+    padding: 5px;
+    border-radius: 100%;
+    transition: background-color 0.15s ease, fill 0.15s ease;
+    &:hover {
+        background-color: #e5e5e5;
+        .noticeIcon {
+            fill: $darkblue;
+        }
+    }
+    &.active {
+        background-color: #e5e5e5;
+        .noticeIcon {
+            fill: $darkblue;
+        }
+    }
+}
+.bellIcon {
+    display: block;
+    height: 25px;
+    width: 25px;
+    fill: $darkblue;
+}
+.noticeCounter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 16px;
+    height: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: $white;
+    background-color: $red;
+    border-radius: 100%;
+}
+.noticesMenu {
+    width: 380px;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: $white;
+    border: 1px solid $grey;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px 0 rgb(0 0 0 / 30%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s linear, top 0.15s ease;
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+        top: 50px;
+    }
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px;
+    border-bottom: 1px solid $grey;
+}
+.headerTitle {
+    font-size: 14px;
+    font-weight: 500;
+}
+.markAllButton {
+    color: $blue;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.noticesList {
+    display: flex;
+    flex-direction: column;
+    max-height: 80%;
+    overflow: auto;
+    max-height: 380px;
+}
+.noticeItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid $grey;
+}
+.photoWrapper {
+    position: relative;
+}
+.avatar {
+    height: 42px;
+    width: 42px;
+    cursor: pointer;
+}
+.noticeIcon {
+    position: absolute;
+    bottom: 2px;
+    right: -4px;
+    fill: $darkblue;
+    &.like {
+        fill: $red;
+    }
+    &.accept {
+        fill: $green;
+    }
+}
+.title {
+    font-size: 15px;
+    margin-bottom: 1px;
+}
+.name {
+    color: $darkblue;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.date {
+    color: $darkgrey;
+    font-size: 13.5px;
+}
+.markButton {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: background-color 0.15s ease;
+    border-radius: 100%;
+    padding: 2px 3px;
+    &:hover {
+        background-color: #e5e5e5;
+        .markIcon {
+            fill: $darkblue;
+        }
+    }
+}
+.markIcon {
+    width: 22px;
+    height: 22px;
+    fill: $darkgrey;
+    transition: fill 0.15s ease;
+}

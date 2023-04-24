@@ -4,16 +4,20 @@ import { registerUser } from "./thunks/registerUser";
 import { loginUser } from "./thunks/loginUser";
 import { logoutUser } from "./thunks/logoutUser";
 import { checkAuth } from "./thunks/checkAuth";
-import { Socket } from "socket.io-client";
+import { followUser } from "./thunks/followUser";
+import { unfollowUser } from "./thunks/unfollowUser";
+import { postFriend } from "./thunks/postFriend";
+import { deleteFriend } from "./thunks/deleteFriend";
+import { deleteRequest } from "./thunks/deleteRequest";
 
-interface State {
+interface UserState {
     user: IUser;
     isAuth: boolean;
     isLoading: boolean;
     error: string | null;
 }
 
-const initialState: State = {
+const initialState: UserState = {
     user: {} as IUser,
     isAuth: false,
     isLoading: true,
@@ -23,7 +27,26 @@ const initialState: State = {
 const userSlice = createSlice({
     name: "user",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        addRequest(state, action: PayloadAction<string>) {
+            state.user.requests.push(action.payload);
+        },
+        addFriend(state, action: PayloadAction<string>) {
+            state.user.friends.push(action.payload);
+        },
+        addFollowing(state, action: PayloadAction<string>) {
+            state.user.followings.push(action.payload);
+        },
+        removeFollowing(state, action: PayloadAction<string>) {
+            state.user.followings = state.user.followings.filter((following) => following !== action.payload);
+        },
+        removeRequest(state, action: PayloadAction<string>) {
+            state.user.requests = state.user.requests.filter((request) => request !== action.payload);
+        },
+        removeFriend(state, action: PayloadAction<string>) {
+            state.user.friends = state.user.friends.filter((friend) => friend !== action.payload);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(registerUser.pending, (state) => {
@@ -67,8 +90,24 @@ const userSlice = createSlice({
             })
             .addCase(checkAuth.rejected, (state) => {
                 state.isLoading = false;
+            })
+            .addCase(followUser.fulfilled, (state, action) => {
+                state.user.followings.push(action.payload.userId);
+            })
+            .addCase(unfollowUser.fulfilled, (state, action) => {
+                state.user.followings = state.user.followings.filter((following) => following !== action.payload);
+            })
+            .addCase(postFriend.fulfilled, (state, action) => {
+                state.user.requests = state.user.requests.filter((request) => request !== action.payload);
+            })
+            .addCase(deleteFriend.fulfilled, (state, action) => {
+                state.user.friends = state.user.friends.filter((friend) => friend !== action.payload);
+            })
+            .addCase(deleteRequest.fulfilled, (state, action) => {
+                state.user.requests = state.user.requests.filter((request) => request !== action.payload);
             });
     },
 });
 
+export const { addRequest, addFriend, addFollowing, removeFollowing, removeRequest, removeFriend } = userSlice.actions;
 export default userSlice.reducer;

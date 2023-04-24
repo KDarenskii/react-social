@@ -1,20 +1,42 @@
 @import "../../assets/styles/vars.scss";
 
-.friendsList {
-    border-radius: 10px;
+.body {
     background-color: $white;
-    &::before {
-        content: "";
-        display: block;
-        width: 100%;
-        position: fixed;
-        top: $headerHeight;
-        z-index: 10;
-        height: $pageOffsetPadding;
-        background-color: $grey;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.header {
+    margin-bottom: 13px;
+    background-color: $white;
+    padding: 15px;
+    border-bottom: 1px solid $grey;
+}
+.headerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tabButton {
+    padding: 10px;
+    font-size: 15px;
+    color: $darkgrey;
+    border-radius: 10px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    &.active {
+        color: $white;
+        background-color: $darkblue;
     }
 }
-.friendItem {
-    padding: 15px 20px;
-    border-bottom: 1px solid $grey;
+.findButton {
+    font-size: 13px;
+    height: 30px;
+    padding: 0.375rem 0.7rem;
+    margin-left: auto;
 }

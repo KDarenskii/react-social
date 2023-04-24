@@ -1,4 +1,5 @@
 import ApiError from "../exceptions/ApiError.js";
+import NotificationService from "../services/NotificationService.js";
 import UserService from "../services/UserService.js";
 
 class UserController {
@@ -57,6 +58,16 @@ class UserController {
         }
     }
 
+    async fetchUsers(req, res, next) {
+        try {
+            const { search = "" } = req.query;
+            const users = await UserService.getUsers(search);
+            res.status(200).json(users);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async fetchById(req, res, next) {
         try {
             const { id } = req.params;
@@ -78,6 +89,118 @@ class UserController {
             }
             const friends = await UserService.getFriends(userId);
             res.status(200).json(friends);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async postFriend(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const { friendId } = req.body;
+            if (!userId || !friendId) {
+                throw ApiError.BadRequest("userId and friendId is required");
+            }
+            await UserService.addFriend(userId, friendId);
+            res.status(200).json({});
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deleteFriend(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const { friendId } = req.query;
+            if (!userId || !friendId) {
+                throw ApiError.BadRequest("userId and friendId is required");
+            }
+            await UserService.removeFriend(userId, friendId);
+            res.status(200).json({});
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async putUser(req, res, next) {
+        try {
+            const { id } = req.params;
+            const userChanges = req.body;
+            if (!id || !userChanges) {
+                throw ApiError.BadRequest("id and user data is required");
+            }
+            const userData = await UserService.update(id, userChanges);
+            res.status(200).json(userData);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async addFollowings(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const notification = req.body;
+            if (!userId || !notification) {
+                throw ApiError.BadRequest("userId and notification is required");
+            }
+            const followPromise = UserService.follow(userId, notification.userId);
+            const notificationPromise = NotificationService.add(notification);
+            const [notificationData] = await Promise.all([notificationPromise, followPromise]);
+            res.status(200).json(notificationData);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deleteFollowings(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const { followId } = req.query;
+            if (!userId || !followId) {
+                throw ApiError.BadRequest("userId and followId is required");
+            }
+            await UserService.unfollow(userId, followId);
+            res.status(200).json({});
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async fetchFollowings(req, res, next) {
+        try {
+            const { userId } = req.params;
+            if (!userId) {
+                throw ApiError.BadRequest("userId is required");
+            }
+            const followingsData = await UserService.getFollowings(userId);
+            res.status(200).json(followingsData);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async fetchRequests(req, res, next) {
+        try {
+            const { userId } = req.params;
+            if (!userId) {
+                throw ApiError.BadRequest("userId is required");
+            }
+            const requestsData = await UserService.getRequests(userId);
+            res.status(200).json(requestsData);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async deleteRequest(req, res, next) {
+        try {
+            const { userId } = req.params;
+            const { requestId } = req.query;
+            if (!userId || !requestId) {
+                throw ApiError.BadRequest("userId and requestId is required");
+            }
+            await UserService.removeRequest(userId, requestId);
+            res.status(200).json({});
         } catch (error) {
             next(error);
         }
